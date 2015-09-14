@@ -1,0 +1,5 @@
+name: Essentials
+version: 0.1.0
+description: A little Plugin with very Essential Features
+author: Siasur
+main: de.siasur.spigot.essentials.Essentials
