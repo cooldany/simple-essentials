@@ -17,18 +17,12 @@ public class Essentials extends JavaPlugin {
 	public static Essentials instance;
 	
 	/**
-	 * Default Constructor
-	 */
-	public Essentials() {
-		instance = this;
-	}
-	
-	/**
 	 * Executed when the plugin is enabled
 	 */
 	@Override
 	public void onEnable() {
-		createConfig();
+		instance = this;
+		verifyConfigs();
 	}
 	
 	/**
@@ -36,13 +30,13 @@ public class Essentials extends JavaPlugin {
 	 */
 	@Override
 	public void onDisable() {
-		
+		instance = null;
 	}
 	
 	/**
-	 * Create the default config file if not existing
+	 * Verifies that all configs are present
 	 */
-	private void createConfig() {
+	private void verifyConfigs() {
 		if (!getDataFolder().exists()) {
 			getDataFolder().mkdirs();
 		}
