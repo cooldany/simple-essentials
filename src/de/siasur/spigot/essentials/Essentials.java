@@ -2,7 +2,11 @@ package de.siasur.spigot.essentials;
 
 import java.io.File;
 
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import de.siasur.spigot.essentials.helper.FileHelper;
 
 /**
  * Simple Essentials Main Class
@@ -16,6 +20,20 @@ public class Essentials extends JavaPlugin {
 	 */
 	public static Essentials instance;
 	
+	private File languageFile;
+	private File warpFile;
+	
+	public FileConfiguration languageConfig;
+	public FileConfiguration warpConfig;
+	
+	/**
+	 * Constructor
+	 */
+	public Essentials() {
+		languageFile = new File(getDataFolder(), "messages.yml");
+		warpFile = new File(getDataFolder(), "warps.yml");
+	}
+	
 	/**
 	 * Executed when the plugin is enabled
 	 */
@@ -23,6 +41,16 @@ public class Essentials extends JavaPlugin {
 	public void onEnable() {
 		instance = this;
 		verifyConfigs();
+		
+		languageConfig = new YamlConfiguration();
+		warpConfig = new YamlConfiguration();
+		
+		try {
+			languageConfig.load(languageFile);
+			warpConfig.load(warpFile);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -40,13 +68,14 @@ public class Essentials extends JavaPlugin {
 		if (!getDataFolder().exists()) {
 			getDataFolder().mkdirs();
 		}
-		
-		File file = new File(getDataFolder(), "config.yml");
-		if (!file.exists()) {
-			getLogger().info("config.yml not found, creating!");
 			saveDefaultConfig();
-		} else {
-			getLogger().info("config.yml found, loading!");
-		}
+			
+			if (!languageFile.exists()) {
+				FileHelper.copy(getResource("messages.yml"), languageFile);
+			}
+			
+			if (!warpFile.exists()) {
+				FileHelper.copy(getResource("warps.yml"), warpFile);
+			}
 	}
 }
