@@ -1,6 +1,5 @@
 package de.siasur.spigot.essentials.commands.warpcommands;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,27 +14,25 @@ public class WarpCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if (args.length != 1) {
+			return false;
+		}
+		
+		String warpName = args[0];
+		
+		// Command issued by Player
 		if (sender instanceof Player) {
-			if (args.length == 1) {
-				return doWarp((Player) sender, args[0]);
-			} else if (args.length == 2) {
-				return doWarp(Bukkit.getPlayer(args[0]), args[1]);
+			Player player = (Player) sender;
+			Location destination = helper.getWarplocation(warpName);
+			if (destination == null) {
+				sender.sendMessage("Warp " + warpName + " konnte nicht gefunden werden!");
+				return true;
 			}
+				
+				player.teleport(destination);
 		}
 		
-		
-		return false;
+		sender.sendMessage("Der Command " + label + " kann nur als Spieler ausgeführt werden!");
+		return true;
 	}
-	
-	private boolean doWarp(Player player, String warp) {
-		Location target = helper.getWarplocation(warp);
-		
-		if (target == null) {
-			player.sendMessage("Warp " + warp + " konnte nicht gefunden werden");
-			return true;
-		}
-		
-		return false;
-	}
-
 }
