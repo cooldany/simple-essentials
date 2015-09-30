@@ -1,2 +1,5 @@
 prefix: "&f[&n&o&3Simple&r&n&1Essentials&f] &r"
 language: "de-DE"
+
+warp:
+  directional: True
