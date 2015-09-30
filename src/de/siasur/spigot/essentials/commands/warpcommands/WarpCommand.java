@@ -18,11 +18,6 @@ public class WarpCommand implements CommandExecutor {
 			return false;
 		}
 		
-		if (!sender.hasPermission("simpleessentials.warp")) {
-			sender.sendMessage("You don't have the permissions to do this");
-			return true;
-		}
-		
 		String warpName = args[0];
 		
 		// Command issued by Player
