@@ -28,7 +28,7 @@ public class WarpCommand implements CommandExecutor {
 		// Command issued by Player
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
-			Location destination = helper.getWarplocation(warpName);
+			Location destination = helper.getWarp(warpName);
 			if (destination == null) {
 				sender.sendMessage("Warp " + warpName + " konnte nicht gefunden werden!");
 				return true;

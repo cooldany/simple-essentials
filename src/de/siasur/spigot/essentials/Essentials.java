@@ -1,6 +1,7 @@
 package de.siasur.spigot.essentials;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -77,5 +78,15 @@ public class Essentials extends JavaPlugin {
 			if (!warpFile.exists()) {
 				FileHelper.copy(getResource("warps.yml"), warpFile);
 			}
+	}
+	
+	public void saveConfigs() {
+		saveConfig();
+		
+		try {
+			warpConfig.save(warpFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
