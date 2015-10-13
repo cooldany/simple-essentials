@@ -1,5 +1,60 @@
-name: Essentials
+name: SimpleEssentials
+description: A little Plugin with Essential Features
 version: 0.1.0
-description: A little Plugin with very Essential Features
+
 author: Siasur
+
 main: de.siasur.spigot.essentials.Essentials
+database: false
+
+commands:
+  warp:
+    description: Teleport yorself to a Warp.
+    permission: sessentials.warp
+    usage: "Usage: /<command> <warp>"
+  setwarp:
+    description: Create or Update a Warp.
+    permission: sessentials.setwarp
+    usage: "Usage: /<command> <warp>"
+  delwarp:
+    description: Removes a Warp.
+    permission: sessentials.delwarp
+    usage: "Usage: /<command> <warp>"
+  fly:
+    description: Give flymode to yourself or other
+    permission: sessentials.fly
+    usage: "Usage: /<command> [player]"
+  heal:
+    description: Heal yourself or other
+    permission: sessentials.heal
+    usage: "Usage: /<command> [player]"
+    
+permissions:
+  sessentials.*:
+    description: Gives access to all SimpleEssentials Commands
+    children:
+      sessentials.warp: True
+      sessentials.setwarp: True
+      sessentials.delwarp: True
+      sessentials.fly: True
+      sessentials.heal: True
+  sessentials.warp:
+    description: Allows you to use the warp command.
+    default: True
+  sessentials.setwarp:
+    description: Allows you to use the setwarp command.
+    default: op
+  sessentials.delwarp:
+    description: Allows you to use the delwarp command.
+    default: op
+  sessentials.fly:
+    description: Allows you to use the fly command.
+    default: op
+  sessentials.heal:
+    description: Allows you to use the heal command.
+    default: op
+  sessentials.fly.other:
+    description: Allows you to target other players when using the fly command.
+    default: op
+  sessentials.heal.other:
+    description: Allows you to target other players when using the heal command.

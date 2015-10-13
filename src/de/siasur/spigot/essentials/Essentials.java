@@ -1,13 +1,11 @@
 package de.siasur.spigot.essentials;
 
-import java.io.File;
-import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import de.siasur.spigot.essentials.helper.FileHelper;
+import de.siasur.spigot.essentials.commands.CommandFly;
 
 /**
  * Simple Essentials Main Class
@@ -15,25 +13,12 @@ import de.siasur.spigot.essentials.helper.FileHelper;
  * @author Mischa
  */
 public class Essentials extends JavaPlugin {
-	
 	/**
 	 * Holds the instance of the Plugin
 	 */
 	public static Essentials instance;
-	
-	private File languageFile;
-	private File warpFile;
-	
-	public FileConfiguration languageConfig;
-	public FileConfiguration warpConfig;
-	
-	/**
-	 * Constructor
-	 */
-	public Essentials() {
-		languageFile = new File(getDataFolder(), "messages.yml");
-		warpFile = new File(getDataFolder(), "warps.yml");
-	}
+//	public static Localizer localizer;
+	public static Boolean debugging;
 	
 	/**
 	 * Executed when the plugin is enabled
@@ -41,52 +26,31 @@ public class Essentials extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		instance = this;
-		verifyConfigs();
+		saveDefaultConfig();
 		
-		languageConfig = new YamlConfiguration();
-		warpConfig = new YamlConfiguration();
+		debugging = getConfig().getBoolean("Debugging");
+		this.getLogger().log(Level.INFO, "Debugging output is " + (debugging? "enabled" : "disabled"));
 		
-		try {
-			languageConfig.load(languageFile);
-			warpConfig.load(warpFile);
-		} catch (Exception e) {
-			e.printStackTrace();
+//		localizer = new Localizer(this, "de-DE");
+		
+		if (debugging) {
+			doDebugOutput();
 		}
+		
+		this.getCommand("fly").setExecutor(new CommandFly());
 	}
 	
+	private void doDebugOutput() {
+		Logger logger = this.getLogger();
+		logger.log(Level.INFO, "");
+		
+	}
+
 	/**
 	 * Executed when the plugin is disabled
 	 */
 	@Override
 	public void onDisable() {
 		instance = null;
-	}
-	
-	/**
-	 * Verifies that all configs are present
-	 */
-	private void verifyConfigs() {
-		if (!getDataFolder().exists()) {
-			getDataFolder().mkdirs();
-		}
-			saveDefaultConfig();
-			
-			if (!languageFile.exists()) {
-				FileHelper.copy(getResource("messages.yml"), languageFile);
-			}
-			
-			if (!warpFile.exists()) {
-				FileHelper.copy(getResource("warps.yml"), warpFile);
-			}
-	}
-	
-	public void saveConfigs() {
-		saveConfig();
-		
-		try {
-			warpConfig.save(warpFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 }
